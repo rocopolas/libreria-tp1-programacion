@@ -27,11 +27,33 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . htmlspecialchars($libro['editorial']) . "</td>";
         echo "<td>" . htmlspecialchars($libro['año']) . "</td>";
         echo "<td>
-                <a href='editar_libro.php?id=" . $libro['id'] . "'>
-                    <button>Editar</button>
-                </a>
+                <div class='dropdown'>
+                    <button type='button' class='btn btn-secondary dropdown-toggle ms-1 mb-1' data-bs-toggle='dropdown' aria-expanded='false' data-bs-auto-close='outside'>
+                        Editar
+                    </button>
+                    <form action='actualizar_libro.php' method='POST' class='dropdown-menu p-4'>
+                        <input type='hidden' name='id' value=" . $libro['id'] . ">
+                        <div class='mb-3'>
+                            <label>Título:</label>
+                            <input type='text' name='titulo'><br><br>
+                        </div>
+                        <div class='mb-3'>
+                            <label>Autor:</label>
+                            <input type='text' name='autor'><br><br>
+                        </div>
+                        <div class='mb-3'>
+                            <label>Editorial:</label>
+                            <input type='text' name='editorial'><br><br>
+                        </div>
+                        <div class='mb-3'>
+                            <label>Año:</label>
+                            <input type='number' name='año'><br><br>
+                        <button type='submit' class='btn btn-primary'>Modificar</button>
+                    </form>
+                </div>
+
                 <a href='eliminar_libro.php?id=" . $libro['id'] . "' onclick=\"return confirm('¿Seguro que querés eliminar este libro?')\">
-                    <button>Eliminar</button>
+                    <button class='btn btn-outline-danger ms-1'>Eliminar</button>
                 </a>
 
               </td>";
