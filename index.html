@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libreria</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {     
+                const buscador = document.getElementById("buscador");
+                const tabla = document.getElementById("libros-body");
+
+                function buscarLibros(query) {
+                    fetch("buscar_libros.php?q=" + encodeURIComponent(query))
+                        // El servidor devuelve un HTML con los libros que coinciden con la búsqueda
+                        // y lo insertamos en el cuerpo de la tabla
+                        .then(response => response.text())
+                        .then(data => {
+                            tabla.innerHTML = data;
+                        });
+                }
+
+                buscador.addEventListener("input", function () {
+                    // Cuando el usuario escribe en el buscador, llamamos a la función buscarLibros
+                    // con el valor actual del input
+                    const valor = buscador.value;
+                    buscarLibros(valor);
+                });
+
+                // Cargamos todos los libros al principio
+                buscarLibros("");
+        });
+    </script>
+        
+</head>
+<body>
+    <h1>Ingresar nuevo libro</h1>
+    <form id="nuevo-libro" action="nuevo.php" method="POST">
+        <label for="titulo">Titulo:</label>
+        <input type="text" id="titulo" name="titulo" required><br><br>
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" name="autor" required><br><br>
+        <label for="editorial">Editorial:</label>
+        <input type="text" id="editorial" name="editorial" required><br><br>
+        <label for="año">Año:</label>
+        <input type="number" id="año" name="año" required><br><br>
+        <button type="submit" id="sumbit-button">Subir libro</button>
+    </form>
+
+    <h1>Libros disponibles</h1>
+    <!-- Una tabla con todos los libros -->
+    <!-- Encima de la tabla un buscador que cambia el contenido de la misma dependiendo lo que hayas buscado -->
+    <!-- Al lado de cada libro un boton de cambiar y eliminar -->
+    <input type="text" id="buscador" placeholder="Escribí el título...">
+    <br><br>
+    <table id="libros-table" border="1">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Editorial</th>
+                <th>Año</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="libros-body">
+            <!-- Aquí se llenarán los libros desde el servidor -->
+             
+        </tbody>
+    </table>
+
+    
+
+</body>
+</html>
